@@ -8,7 +8,7 @@
   overflow: hidden;
   color: #20201e;
   background: #e8e5df;
-  font-size: 14px;
+  font-size: var(--text-lg);
 }
 
 .skipLink {
@@ -36,7 +36,7 @@
   min-width: 0;
   overflow: hidden;
   border: 1px solid rgba(37, 36, 33, 0.08);
-  border-radius: 22px;
+  border-radius: 18px;
   flex-direction: column;
   color: #5e5b55;
   background: #f6f4ef;
@@ -54,6 +54,8 @@
   min-height: 72px;
   padding: 14px 13px;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   border-bottom: 1px solid rgba(37, 36, 33, 0.07);
 }
 
@@ -62,6 +64,7 @@
   min-width: 0;
   align-items: center;
   gap: 11px;
+  overflow: hidden;
 }
 
 .brandMark {
@@ -70,7 +73,7 @@
   height: 40px;
   flex: 0 0 40px;
   place-items: center;
-  border-radius: 12px;
+  border-radius: 14px;
   color: #fff;
   background: #232321;
   box-shadow: 0 8px 18px rgba(35, 35, 33, 0.16);
@@ -105,18 +108,21 @@
 
 .brandCopy strong {
   color: #22211f;
-  font-size: 15px;
-  font-weight: 800;
+  font-size: var(--text-xl);
+  font-weight: 700;
   letter-spacing: -0.025em;
 }
 
 .brandCopy small {
   margin-top: 4px;
+  overflow: hidden;
   color: #a09b91;
-  font-size: 9.5px;
+  font-size: var(--text-3xs);
   font-weight: 700;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.05em;
+  text-overflow: ellipsis;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .collapseButton,
@@ -128,7 +134,7 @@
   flex: 0 0 30px;
   place-items: center;
   border: 1px solid rgba(37, 36, 33, 0.08);
-  border-radius: 9px;
+  border-radius: 10px;
   color: #858077;
   background: rgba(255, 255, 255, 0.55);
   cursor: pointer;
@@ -158,7 +164,7 @@
   align-items: center;
   gap: 9px;
   border: 1px solid rgba(37, 36, 33, 0.07);
-  border-radius: 13px;
+  border-radius: 14px;
   color: inherit;
   background: rgba(255, 255, 255, 0.54);
   cursor: pointer;
@@ -179,31 +185,28 @@
   color: #fff;
   background: #d95e2b;
   font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--text-xs);
+  font-weight: 700;
 }
 
-.organizationCopy,
-.userCopy {
+.organizationCopy {
   display: flex;
   min-width: 0;
   flex-direction: column;
   line-height: 1.2;
 }
 
-.organizationCopy small,
-.userCopy small {
+.organizationCopy small {
   color: #98938a;
-  font-size: 10.5px;
+  font-size: var(--text-xs);
   font-weight: 500;
 }
 
-.organizationCopy strong,
-.userCopy strong {
+.organizationCopy strong {
   overflow: hidden;
   margin-top: 3px;
   color: #34322f;
-  font-size: 12.5px;
+  font-size: var(--text-md);
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -226,7 +229,7 @@
   display: block;
   margin: 0 10px 7px;
   color: #a29d94;
-  font-size: 10px;
+  font-size: var(--text-2xs);
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -249,7 +252,7 @@
   gap: 11px;
   border-radius: 10px;
   color: #6f6b64;
-  font-size: 13px;
+  font-size: var(--text-md);
   font-weight: 600;
   white-space: nowrap;
   transition:
@@ -293,10 +296,10 @@
   margin-left: auto;
   padding-inline: 5px;
   place-items: center;
-  border-radius: 7px;
+  border-radius: 8px;
   color: #b74420;
   background: #f7d9cd;
-  font-size: 10px;
+  font-size: var(--text-2xs);
 }
 
 .sidebarFooter {
@@ -305,39 +308,7 @@
 }
 
 .settingsLink {
-  margin-bottom: 5px;
-}
-
-.userButton {
-  display: grid;
-  width: 100%;
-  min-height: 54px;
-  padding: 7px;
-  grid-template-columns: 36px minmax(0, 1fr) 18px;
-  align-items: center;
-  gap: 9px;
-  border-radius: 12px;
-  color: inherit;
-  background: rgba(255, 255, 255, 0.42);
-  cursor: pointer;
-  text-align: left;
-}
-
-.userButton:hover {
-  background: #fff;
-}
-
-.avatar {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border-radius: 10px;
-  color: #f8c5ad;
-  background: #332924;
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 800;
+  margin-bottom: 0;
 }
 
 .workspace {
@@ -346,7 +317,7 @@
   min-height: 0;
   overflow: hidden;
   border: 1px solid rgba(37, 36, 33, 0.07);
-  border-radius: 22px;
+  border-radius: 18px;
   grid-template-rows: 64px minmax(0, 1fr);
   background: #f2f0eb;
   box-shadow:
@@ -384,9 +355,9 @@
 
 .pageContext span {
   color: #99938b;
-  font-size: 10px;
+  font-size: var(--text-2xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
 
@@ -394,7 +365,7 @@
   overflow: hidden;
   margin-top: 3px;
   color: #2d2c29;
-  font-size: 14px;
+  font-size: var(--text-lg);
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -405,20 +376,207 @@
   gap: 8px;
 }
 
-.demoBadge {
-  display: inline-flex;
-  height: 40px;
-  padding: 0 12px;
-  align-items: center;
-  border: 1px solid rgba(216, 93, 42, 0.13);
-  border-radius: 10px;
-  color: #b64c22;
-  background: rgba(244, 219, 207, 0.45);
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.055em;
-  text-transform: uppercase;
+.menuAnchor {
+  position: relative;
+}
+
+.iconButtonOn,
+.profileButtonOn {
+  border-color: rgba(37, 36, 33, 0.24) !important;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 40;
+  display: flex;
+  width: 320px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(39, 38, 35, 0.09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 22px 48px rgba(38, 34, 29, 0.16);
+  animation: popover-in 200ms cubic-bezier(0.22, 0.9, 0.3, 1) both;
+}
+
+.popoverHead {
+  display: flex;
+  padding: 13px 15px;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(39, 38, 35, 0.07);
+}
+
+.popoverHead strong {
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.popoverHead small {
+  color: #8d877f;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.alertList {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.alertList li {
+  display: grid;
+  padding: 10px 15px;
+  grid-template-columns: 7px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+}
+
+.alertList li + li {
+  border-top: 1px solid rgba(39, 38, 35, 0.05);
+}
+
+.alertList i {
+  width: 7px;
+  height: 7px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: #9a948b;
+}
+
+.alert_critical i {
+  background: #b8513f;
+}
+
+.alert_warning i {
+  background: #b18739;
+}
+
+.alert_stable i {
+  background: #5f866a;
+}
+
+.alertList strong {
+  display: block;
+  color: #2d2c29;
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.alertList span {
+  display: block;
+  margin-top: 2px;
+  color: #8d877f;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.alertList em {
+  display: block;
+  margin-top: 3px;
+  color: #6a655e;
+  font-size: var(--text-xs);
+  font-style: normal;
+}
+
+.alertList small {
+  color: #a29c93;
+  font-size: var(--text-2xs);
   white-space: nowrap;
+}
+
+.popoverAction {
+  display: flex;
+  padding: 11px 15px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(39, 38, 35, 0.07);
+  color: #b64c22;
+  background: rgba(246, 244, 239, 0.6);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.popoverAction:hover {
+  background: rgba(246, 244, 239, 1);
+}
+
+.profilePopover {
+  width: 264px;
+  padding: 6px;
+}
+
+.profileCard {
+  display: flex;
+  padding: 9px 8px 12px;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(39, 38, 35, 0.07);
+}
+
+.profileCard > span {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border-radius: 10px;
+  color: #fff;
+  background: #2d2c29;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.profileCard strong {
+  display: block;
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.profileCard small {
+  display: block;
+  margin-top: 2px;
+  color: #8d877f;
+  font-size: var(--text-xs);
+}
+
+.profilePopover a {
+  display: flex;
+  padding: 9px 8px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  color: #4f4c47;
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.profilePopover a:first-of-type {
+  margin-top: 6px;
+}
+
+.profilePopover a:hover {
+  background: rgba(39, 38, 35, 0.05);
+}
+
+.profilePopover .menuDanger {
+  margin-top: 4px;
+  color: #b8513f;
+  border-top: 1px solid rgba(39, 38, 35, 0.07);
+  border-radius: 0 0 8px 8px;
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .liveStatus {
@@ -431,7 +589,7 @@
   border-radius: 10px;
   color: #4c7057;
   background: rgba(225, 235, 225, 0.56);
-  font-size: 12px;
+  font-size: var(--text-sm);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -465,28 +623,47 @@
   background: #fff;
 }
 
+/* Dumaloq avatar profilni kvadrat tugmadan ko'ra aniqroq ifodalaydi. */
 .profileButton {
-  color: #fff;
-  border-color: #2d2c29;
-  background: #2d2c29;
-  font-size: 11px;
-  font-weight: 800;
+  color: #f8c5ad;
+  border-color: transparent;
+  border-radius: 50%;
+  background: #332924;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.profileButton:hover {
+  background: #241d19;
+}
+
+.topbarDivider {
+  width: 1px;
+  height: 22px;
+  margin-inline: 2px;
+  flex: 0 0 1px;
+  background: rgba(37, 36, 33, 0.12);
 }
 
 .notificationDot {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -4px;
+  right: -4px;
   display: grid;
-  width: 18px;
-  height: 18px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
   place-items: center;
-  border: 3px solid #f8f7f4;
-  border-radius: 50%;
+  /* Halqa topbar foni rangida — tugma ustida ham, tashqarisida ham bir xil. */
+  border: 2px solid #f5f3ef;
+  border-radius: 20px;
   color: #fff;
-  background: #d85d2a;
-  font-size: 9px;
-  font-weight: 800;
+  background: #c9522a;
+  font-size: var(--text-3xs);
+  font-weight: 700;
+  line-height: 1;
 }
 
 .mobileMenuButton {
@@ -531,9 +708,7 @@
 .shellCollapsed .navGroupLabel,
 .shellCollapsed .navItem > span,
 .shellCollapsed .navItem b,
-.shellCollapsed .settingsLink > span,
-.shellCollapsed .userCopy,
-.shellCollapsed .userButton > svg {
+.shellCollapsed .settingsLink > span {
   display: none;
 }
 
@@ -552,8 +727,7 @@
 
 .shellCollapsed .organization,
 .shellCollapsed .navItem,
-.shellCollapsed .settingsLink,
-.shellCollapsed .userButton {
+.shellCollapsed .settingsLink {
   display: flex;
   padding-inline: 0;
   justify-content: center;
@@ -636,7 +810,6 @@
     padding: 0 14px;
   }
 
-  .demoBadge,
   .pageContext span {
     display: none;
   }
@@ -649,8 +822,20 @@
     margin-left: auto;
   }
 
+  /* Tor ekranda status pill va ajratgich topbar'ni siqib qo'yadi. */
+  .liveStatus,
+  .topbarDivider {
+    display: none;
+  }
+
   .content {
     padding: 20px 14px 32px;
+  }
+}
+
+@media (max-width: 520px) {
+  .popover {
+    width: min(300px, calc(100vw - 28px));
   }
 }
 
@@ -659,5 +844,9 @@
   .overlay,
   .collapseButton svg {
     transition: none;
+  }
+
+  .popover {
+    animation: none;
   }
 }

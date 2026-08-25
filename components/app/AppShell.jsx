@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { currentUser, navigationGroups } from "@/lib/dashboard-data";
+import {
+  currentUser,
+  navigationGroups,
+  smartAlerts,
+} from "@/lib/dashboard-data";
 import Icon from "@/components/ui/Icon";
 import styles from "./AppShell.module.css";
 
@@ -34,7 +38,7 @@ function Brand() {
       </span>
       <span className={styles.brandCopy}>
         <strong>AI-BPM</strong>
-        <small>Business intelligence</small>
+        <small>Monitor</small>
       </span>
     </Link>
   );
@@ -44,11 +48,31 @@ export default function AppShell({ children }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
 
   const currentPage = useMemo(
     () => pageNames[pathname] ?? "AI-BPM Monitor",
     [pathname],
   );
+
+  useEffect(() => {
+    if (!openMenu) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (!event.target.closest?.("[data-menu-root]")) setOpenMenu(null);
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setOpenMenu(null);
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openMenu]);
 
   useEffect(() => {
     if (!mobileOpen) return undefined;
@@ -154,14 +178,6 @@ export default function AppShell({ children }) {
             <Icon name="settings" size={18} />
             <span>Sozlamalar</span>
           </Link>
-          <button className={styles.userButton} type="button">
-            <span className={styles.avatar}>{currentUser.initials}</span>
-            <span className={styles.userCopy}>
-              <strong>{currentUser.name}</strong>
-              <small>{currentUser.role} · Online</small>
-            </span>
-            <Icon name="dots" size={18} />
-          </button>
         </div>
       </aside>
 
@@ -183,26 +199,121 @@ export default function AppShell({ children }) {
             </div>
           </div>
 
-          <div className={styles.topbarActions}>
-            <span className={styles.demoBadge}>Demo ma’lumot</span>
+          <div className={styles.topbarActions} data-menu-root>
             <span className={styles.liveStatus}>
               <i /> Tizim barqaror
             </span>
-            <button
-              className={styles.iconButton}
-              type="button"
-              aria-label="Bildirishnomalar"
-            >
-              <Icon name="bell" size={19} />
-              <span className={styles.notificationDot}>3</span>
-            </button>
-            <button
-              className={styles.profileButton}
-              type="button"
-              aria-label="Profil menyusi"
-            >
-              {currentUser.initials}
-            </button>
+
+            <span className={styles.topbarDivider} aria-hidden="true" />
+
+            <div className={styles.menuAnchor}>
+              <button
+                className={`${styles.iconButton} ${openMenu === "alerts" ? styles.iconButtonOn : ""}`}
+                type="button"
+                aria-label="Bildirishnomalar"
+                aria-expanded={openMenu === "alerts"}
+                onClick={() =>
+                  setOpenMenu((current) =>
+                    current === "alerts" ? null : "alerts",
+                  )
+                }
+              >
+                <Icon name="bell" size={19} />
+                <span className={styles.notificationDot}>
+                  {smartAlerts.length}
+                </span>
+              </button>
+
+              {openMenu === "alerts" ? (
+                <div
+                  className={styles.popover}
+                  role="dialog"
+                  aria-label="Bildirishnomalar"
+                >
+                  <div className={styles.popoverHead}>
+                    <strong>Smart alertlar</strong>
+                    <small>{smartAlerts.length} ta yangi</small>
+                  </div>
+                  <ul className={styles.alertList}>
+                    {smartAlerts.map((alert) => (
+                      <li
+                        key={alert.title}
+                        className={styles[`alert_${alert.tone}`]}
+                      >
+                        <i />
+                        <div>
+                          <strong>{alert.title}</strong>
+                          <span>{alert.process}</span>
+                          <em>{alert.detail}</em>
+                        </div>
+                        <small>{alert.time}</small>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    className={styles.popoverAction}
+                    href="/risks"
+                    onClick={() => setOpenMenu(null)}
+                  >
+                    Barcha signallar <Icon name="chevron" size={13} />
+                  </Link>
+                </div>
+              ) : null}
+            </div>
+
+            <div className={styles.menuAnchor}>
+              <button
+                className={`${styles.profileButton} ${openMenu === "profile" ? styles.profileButtonOn : ""}`}
+                type="button"
+                aria-label="Profil menyusi"
+                aria-expanded={openMenu === "profile"}
+                onClick={() =>
+                  setOpenMenu((current) =>
+                    current === "profile" ? null : "profile",
+                  )
+                }
+              >
+                {currentUser.initials}
+              </button>
+
+              {openMenu === "profile" ? (
+                <div
+                  className={`${styles.popover} ${styles.profilePopover}`}
+                  role="menu"
+                >
+                  <div className={styles.profileCard}>
+                    <span>{currentUser.initials}</span>
+                    <div>
+                      <strong>{currentUser.name}</strong>
+                      <small>
+                        {currentUser.role} · {currentUser.organization}
+                      </small>
+                    </div>
+                  </div>
+                  <Link
+                    href="/settings"
+                    role="menuitem"
+                    onClick={() => setOpenMenu(null)}
+                  >
+                    <Icon name="settings" size={16} /> Sozlamalar
+                  </Link>
+                  <Link
+                    href="/users"
+                    role="menuitem"
+                    onClick={() => setOpenMenu(null)}
+                  >
+                    <Icon name="users" size={16} /> Jamoa va rollar
+                  </Link>
+                  <Link
+                    className={styles.menuDanger}
+                    href="/login"
+                    role="menuitem"
+                  >
+                    <Icon name="logout" size={16} /> Chiqish
+                  </Link>
+                </div>
+              ) : null}
+            </div>
           </div>
         </header>
 

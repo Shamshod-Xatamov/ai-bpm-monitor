@@ -30,7 +30,7 @@ export default function ModuleOverview({ module }) {
           <span>Product roadmap</span>
           <h2>Modul foundation’i tayyor</h2>
           <p>
-            Ushbu bo‘lim app shell, navigatsiya va demo data layer bilan
+            Ushbu bo‘lim app shell, navigatsiya va umumiy data layer bilan
             ulangan. Keyingi sprintda modulning asosiy workflow va jadvallari
             quriladi.
           </p>

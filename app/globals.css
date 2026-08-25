@@ -26,6 +26,17 @@
   --radius-lg: 30px;
   --radius-xl: 40px;
   --container: 1220px;
+  --text-3xs: 10px; /* faqat brend/mikro yozuvlar uchun */
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 14px;
+  --text-lg: 15px;
+  --text-xl: 18px;
+  --text-2xl: 22px;
+  --text-3xl: 26px;
+  --text-4xl: 32px;
+  --tracking-label: 0.06em;
   --font-display: var(--font-manrope), "Avenir Next", "Segoe UI", sans-serif;
   --font-body: var(--font-dm-sans), "Segoe UI", sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
