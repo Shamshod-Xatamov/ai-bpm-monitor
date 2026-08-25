@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Icon from "@/components/ui/Icon";
+import Sparkline from "@/components/ui/Sparkline";
 import {
   criticalProcesses,
   decisionQueue,
@@ -128,29 +129,6 @@ const toPolyline = (points) =>
   points
     .map((point) => `${point.x.toFixed(1)},${point.y.toFixed(1)}`)
     .join(" ");
-
-function Sparkline({ values, tone = "neutral" }) {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const span = max - min || 1;
-  const points = values
-    .map((value, index) => {
-      const x = (index / (values.length - 1)) * 76;
-      const y = 24 - ((value - min) / span) * 20;
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-
-  return (
-    <svg
-      className={`${styles.sparkline} ${styles[`spark_${tone}`]}`}
-      viewBox="0 0 76 28"
-      aria-hidden="true"
-    >
-      <polyline points={points} />
-    </svg>
-  );
-}
 
 function PanelHeading({ eyebrow, title, meta, action }) {
   return (
@@ -526,22 +504,38 @@ function PerformancePanel({ snapshot, period, isLive }) {
         <div>
           <span>KPI bajarilishi</span>
           <strong>{kpi.toFixed(1)}%</strong>
-          <Sparkline values={microSeries.kpi} tone="sage" />
+          <Sparkline
+            className={styles.footSpark}
+            values={microSeries.kpi}
+            tone="sage"
+          />
         </div>
         <div>
           <span>Faol jarayonlar</span>
           <strong>{snapshot.activeProcesses}</strong>
-          <Sparkline values={microSeries.processes} tone="ink" />
+          <Sparkline
+            className={styles.footSpark}
+            values={microSeries.processes}
+            tone="ink"
+          />
         </div>
         <div>
           <span>Kritik risk</span>
           <strong>{snapshot.criticalRisks}</strong>
-          <Sparkline values={microSeries.risks} tone="danger" />
+          <Sparkline
+            className={styles.footSpark}
+            values={microSeries.risks}
+            tone="danger"
+          />
         </div>
         <div>
           <span>SLA bajarilishi</span>
           <strong>{sla.toFixed(1)}%</strong>
-          <Sparkline values={microSeries.sla} tone="sage" />
+          <Sparkline
+            className={styles.footSpark}
+            values={microSeries.sla}
+            tone="sage"
+          />
         </div>
       </div>
     </section>

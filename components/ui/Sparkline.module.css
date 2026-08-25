@@ -1,0 +1,33 @@
+.sparkline {
+  width: 58px;
+  height: 22px;
+  overflow: visible;
+}
+
+.sparkline polyline {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.tone_sage polyline {
+  stroke: #5f866a;
+}
+
+.tone_ink polyline {
+  stroke: #8b857c;
+}
+
+.tone_danger polyline {
+  stroke: #b8513f;
+}
+
+.tone_amber polyline {
+  stroke: #b18739;
+}
+
+.tone_neutral polyline {
+  stroke: #a29c93;
+}

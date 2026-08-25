@@ -1588,35 +1588,8 @@
 
 /* ------------------------------------------------------------- sparklines */
 
-.sparkline {
-  width: 58px;
-  height: 22px;
+.footSpark {
   justify-self: end;
-  overflow: visible;
-}
-
-.sparkline polyline {
-  fill: none;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.spark_sage polyline {
-  stroke: #5f866a;
-}
-
-.spark_ink polyline {
-  stroke: #8b857c;
-}
-
-.spark_danger polyline {
-  stroke: #b8513f;
-}
-
-.spark_neutral polyline {
-  stroke: #a29c93;
 }
 
 /* ------------------------------------------------- animated chart entrance */
@@ -1808,7 +1781,7 @@
     border-color 180ms ease;
 }
 
-.queueFilters button:hover {
+.queueFilters button:not(.queueFilterOn):hover {
   border-color: rgba(39, 38, 35, 0.16);
   background: #fff;
 }
@@ -1826,6 +1799,11 @@
   color: #fff;
   border-color: #292825;
   background: #292825;
+}
+
+.queueFilters .queueFilterOn:hover {
+  border-color: #423f3a;
+  background: #423f3a;
 }
 
 .queueFilters .queueFilterOn small {
@@ -2208,7 +2186,7 @@
     font-size: var(--text-xl);
   }
 
-  .sparkline {
+  .footSpark {
     display: none;
   }
 

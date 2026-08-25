@@ -1,0 +1,138 @@
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  display: inline-flex;
+  height: 42px;
+  padding: 0 11px 0 12px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(39, 38, 35, 0.09);
+  border-radius: 10px;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.trigger:hover {
+  border-color: rgba(39, 38, 35, 0.16);
+  background: #fff;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid rgba(223, 99, 48, 0.45);
+  outline-offset: 2px;
+}
+
+.triggerOpen {
+  border-color: rgba(39, 38, 35, 0.22);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(44, 39, 31, 0.07);
+}
+
+.label {
+  color: #97918a;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.trigger svg {
+  color: #a29c93;
+  transition: transform 200ms ease;
+  transform: rotate(90deg);
+}
+
+.triggerOpen svg {
+  color: #6d675f;
+  transform: rotate(-90deg);
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  min-width: 100%;
+  max-height: 340px;
+  margin: 0;
+  padding: 5px;
+  overflow-y: auto;
+  border: 1px solid rgba(39, 38, 35, 0.1);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 20px 44px rgba(38, 34, 29, 0.16);
+  list-style: none;
+  animation: select-in 160ms cubic-bezier(0.22, 0.9, 0.3, 1) both;
+}
+
+.listEnd {
+  right: 0;
+  left: auto;
+}
+
+.list li {
+  display: flex;
+  min-height: 36px;
+  padding: 0 9px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-radius: 8px;
+  color: #4f4c47;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.list li + li {
+  margin-top: 1px;
+}
+
+.optionActive {
+  background: rgba(39, 38, 35, 0.055);
+}
+
+.optionSelected {
+  color: #292825;
+  font-weight: 700;
+}
+
+.optionSelected svg {
+  color: #b04f22;
+}
+
+@keyframes select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list {
+    animation: none;
+  }
+
+  .trigger,
+  .trigger svg {
+    transition: none;
+  }
+}

@@ -74,7 +74,7 @@ Asosiy qiymat zanjiri:
 - [x] Sodda email/parol login ekrani.
 - [x] Executive Dashboard — premium UI redesign v1.
 - [ ] Tashkilot va bo'limlar.
-- [ ] Biznes jarayonlari ro'yxati va process detail.
+- [x] Biznes jarayonlari ro'yxati va process detail.
 - [ ] Jarayon bosqichlari uchun flow/BPMN ko'rinishi.
 - [ ] KPI va BPEI monitoring.
 - [ ] AI anomaliya, prognoz, risk score va tavsiyalar.
