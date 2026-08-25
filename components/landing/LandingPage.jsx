@@ -1,4 +1,5 @@
 import LandingEnhancer from "./LandingEnhancer";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -37,14 +38,17 @@ export default function LandingPage() {
           </nav>
 
           <div className="nav-actions">
-            <a className="text-link desktop-only" href="#boglanish">
-              Bog'lanish
-            </a>
+            <Link
+              className="button button--small button--ghost desktop-only"
+              href="/login"
+            >
+              Kirish
+            </Link>
             <a
               className="button button--small button--dark desktop-only"
               href="#demo"
             >
-              Demo olish
+              Demo so'rash
               <svg viewBox="0 0 18 18" aria-hidden="true">
                 <path d="M3.75 9h10.5M10 4.75 14.25 9 10 13.25" />
               </svg>
@@ -70,27 +74,32 @@ export default function LandingPage() {
             <a href="#rollar">Foydalanuvchilar</a>
             <a href="#boglanish">Bog'lanish</a>
           </nav>
-          <a className="button button--primary" href="#demo">
-            Demo olish
-          </a>
+          <div className="mobile-menu-actions">
+            <Link className="button button--ghost" href="/login">
+              Kirish
+            </Link>
+            <a className="button button--primary" href="#demo">
+              Demo so'rash
+            </a>
+          </div>
         </div>
       </header>
 
       <main id="main-content">
         <section className="hero" id="top">
-          <div className="hero-grid" aria-hidden="true"></div>
-          <div className="hero-orbit hero-orbit--one" aria-hidden="true"></div>
-          <div className="hero-orbit hero-orbit--two" aria-hidden="true"></div>
-
           <div className="container hero-layout">
-            <div className="hero-copy" data-reveal>
+            <div className="hero-copy">
               <div className="eyebrow">
                 <span className="eyebrow-dot"></span>
                 AI asosidagi boshqaruv platformasi
               </div>
-              <h1>
-                Jarayonlarni shunchaki kuzatmang.
-                <span>Ularni oldindan boshqaring.</span>
+              <h1 className="hero-title">
+                <span className="hero-title-line hero-title-line--one">
+                  Jarayonlarni shunchaki kuzatmang.
+                </span>
+                <span className="hero-title-line hero-title-line--two">
+                  <em>Ularni oldindan boshqaring.</em>
+                </span>
               </h1>
               <p className="hero-lead">
                 AI-BPM Monitor har bir biznes jarayonini real natija, risk va
@@ -116,293 +125,21 @@ export default function LandingPage() {
               </div>
 
               <div
-                className="hero-proof"
-                aria-label="Platformaning asosiy afzalliklari"
+                className="hero-microcopy"
+                aria-label="Platforma afzalliklari"
               >
-                <div className="proof-item">
-                  <svg viewBox="0 0 18 18" aria-hidden="true">
-                    <path d="m4 9.25 3 3L14 5.5" />
-                  </svg>
-                  Qaror uchun aniq xulosa
-                </div>
-                <div className="proof-item">
-                  <svg viewBox="0 0 18 18" aria-hidden="true">
-                    <path d="m4 9.25 3 3L14 5.5" />
-                  </svg>
-                  Inson nazoratidagi AI
-                </div>
-              </div>
-            </div>
-
-            <div className="hero-visual" data-reveal data-delay="140">
-              <div className="dashboard-window">
-                <div className="window-sidebar" aria-hidden="true">
-                  <div className="mini-brand">
-                    <svg viewBox="0 0 32 32" fill="none">
-                      <path d="M8 8h9.5A6.5 6.5 0 0 1 24 14.5V24" />
-                      <path d="M24 24h-9.5A6.5 6.5 0 0 1 8 17.5V8" />
-                    </svg>
-                  </div>
-                  <div className="sidebar-icons">
-                    <span className="active">
-                      <i></i>
-                      <i></i>
-                      <i></i>
-                      <i></i>
-                    </span>
-                    <span>
-                      <svg viewBox="0 0 20 20">
-                        <path d="M4 5h12M4 10h8M4 15h10" />
-                      </svg>
-                    </span>
-                    <span>
-                      <svg viewBox="0 0 20 20">
-                        <circle cx="10" cy="10" r="6" />
-                        <path d="M10 7v3.5l2.5 1.5" />
-                      </svg>
-                    </span>
-                    <span>
-                      <svg viewBox="0 0 20 20">
-                        <path d="M3.5 15.5 8 11l3 2 5.5-7" />
-                      </svg>
-                    </span>
-                  </div>
-                  <div className="sidebar-bottom"></div>
-                </div>
-
-                <div className="window-content">
-                  <div className="window-topbar">
-                    <div>
-                      <span className="window-kicker">25 avgust, 2026</span>
-                      <strong>Boshqaruv markazi</strong>
-                    </div>
-                    <div className="window-user">
-                      <span className="window-search">
-                        <svg viewBox="0 0 16 16">
-                          <circle cx="7" cy="7" r="4" />
-                          <path d="m10.5 10.5 3 3" />
-                        </svg>
-                      </span>
-                      <span className="avatar">AK</span>
-                    </div>
-                  </div>
-
-                  <div className="metric-grid">
-                    <article className="mini-metric mini-metric--featured">
-                      <div className="metric-label">
-                        <span>Umumiy samaradorlik</span>
-                        <i>↗</i>
-                      </div>
-                      <div className="metric-value">
-                        94<span>%</span>
-                      </div>
-                      <div className="metric-foot">
-                        <b>+4.2%</b> o'tgan oyga nisbatan
-                      </div>
-                      <div className="metric-spark" aria-hidden="true">
-                        <span style={{ height: "36%" }}></span>
-                        <span style={{ height: "48%" }}></span>
-                        <span style={{ height: "44%" }}></span>
-                        <span style={{ height: "63%" }}></span>
-                        <span style={{ height: "56%" }}></span>
-                        <span style={{ height: "78%" }}></span>
-                        <span style={{ height: "86%" }}></span>
-                      </div>
-                    </article>
-                    <article className="mini-metric">
-                      <div className="metric-icon metric-icon--sage">
-                        <svg viewBox="0 0 18 18">
-                          <path d="M4 14V8m5 6V4m5 10v-3" />
-                        </svg>
-                      </div>
-                      <span className="metric-caption">Faol jarayonlar</span>
-                      <strong>24</strong>
-                      <small>
-                        <b>+3</b> ushbu oyda
-                      </small>
-                    </article>
-                    <article className="mini-metric">
-                      <div className="metric-icon metric-icon--ember">
-                        <svg viewBox="0 0 18 18">
-                          <path d="M9 3v7M9 14.5v.2" />
-                          <circle cx="9" cy="9" r="6.5" />
-                        </svg>
-                      </div>
-                      <span className="metric-caption">Kritik risklar</span>
-                      <strong>3</strong>
-                      <small>
-                        <b className="danger">2 ta yangi</b> signal
-                      </small>
-                    </article>
-                  </div>
-
-                  <div className="dashboard-main-row">
-                    <article className="chart-card">
-                      <div className="card-heading">
-                        <div>
-                          <span>Samaradorlik dinamikasi</span>
-                          <strong>Jarayonlar natijasi</strong>
-                        </div>
-                        <button type="button" tabIndex="-1">
-                          12 oy <span>⌄</span>
-                        </button>
-                      </div>
-                      <div className="chart-legend">
-                        <i></i> Joriy davr <i></i> Reja
-                      </div>
-                      <div
-                        className="line-chart"
-                        aria-label="Samaradorlik o'sishini ko'rsatuvchi grafik"
-                      >
-                        <span className="axis-label axis-label--100">100</span>
-                        <span className="axis-label axis-label--75">75</span>
-                        <span className="axis-label axis-label--50">50</span>
-                        <svg
-                          viewBox="0 0 430 155"
-                          preserveAspectRatio="none"
-                          role="img"
-                        >
-                          <defs>
-                            <linearGradient
-                              id="chartFill"
-                              x1="0"
-                              y1="0"
-                              x2="0"
-                              y2="1"
-                            >
-                              <stop
-                                offset="0%"
-                                stopColor="#dd5f29"
-                                stopOpacity=".18"
-                              />
-                              <stop
-                                offset="100%"
-                                stopColor="#dd5f29"
-                                stopOpacity="0"
-                              />
-                            </linearGradient>
-                          </defs>
-                          <path
-                            className="chart-plan"
-                            d="M10 111 C57 106 70 86 112 91 S170 73 208 81 S266 61 299 69 S356 47 420 43"
-                          />
-                          <path
-                            className="chart-area"
-                            d="M10 126 C55 122 74 110 112 104 S169 96 209 86 S263 82 301 60 S359 61 420 25 L420 155 L10 155 Z"
-                          />
-                          <path
-                            className="chart-line"
-                            d="M10 126 C55 122 74 110 112 104 S169 96 209 86 S263 82 301 60 S359 61 420 25"
-                          />
-                          <circle cx="420" cy="25" r="5" />
-                        </svg>
-                        <div className="chart-tooltip">
-                          <b>94%</b>
-                          <span>Avgust</span>
-                        </div>
-                        <div className="chart-months">
-                          <span>Sen</span>
-                          <span>Noy</span>
-                          <span>Yan</span>
-                          <span>Mar</span>
-                          <span>May</span>
-                          <span>Iyul</span>
-                          <span>Avg</span>
-                        </div>
-                      </div>
-                    </article>
-
-                    <article className="risk-card">
-                      <div className="card-heading">
-                        <div>
-                          <span>AI Risk Map</span>
-                          <strong>Bugungi holat</strong>
-                        </div>
-                        <span className="live-dot">Live</span>
-                      </div>
-                      <div
-                        className="risk-ring"
-                        role="img"
-                        aria-label="Risk ko'rsatkichi 28, past daraja"
-                      >
-                        <svg viewBox="0 0 120 120">
-                          <circle
-                            className="ring-track"
-                            cx="60"
-                            cy="60"
-                            r="48"
-                          />
-                          <circle
-                            className="ring-value"
-                            cx="60"
-                            cy="60"
-                            r="48"
-                          />
-                        </svg>
-                        <div>
-                          <strong>28</strong>
-                          <span>Past risk</span>
-                        </div>
-                      </div>
-                      <div className="risk-meta">
-                        <span>
-                          <i className="risk-low"></i> Normal <b>18</b>
-                        </span>
-                        <span>
-                          <i className="risk-watch"></i> E'tibor <b>3</b>
-                        </span>
-                      </div>
-                    </article>
-                  </div>
-
-                  <div className="ai-insight">
-                    <span className="ai-insight-icon">
-                      <svg viewBox="0 0 22 22">
-                        <path d="M11 3.5 12.8 8l4.7 1.8-4.7 1.8-1.8 4.7-1.8-4.7-4.7-1.8L9.2 8 11 3.5Z" />
-                        <path d="m16.5 15 .7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z" />
-                      </svg>
-                    </span>
-                    <div>
-                      <span>AI xulosasi</span>
-                      <p>
-                        <strong>Xaridlarni tasdiqlash</strong> jarayonida 3.4
-                        kunlik kechikish ehtimoli aniqlandi.
-                      </p>
-                    </div>
-                    <span className="insight-action">
-                      Tavsiyani ko'rish <b>→</b>
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className="floating-note floating-note--risk"
-                aria-hidden="true"
-              >
-                <span className="floating-icon">
-                  <svg viewBox="0 0 20 20">
-                    <path d="M10 3v8M10 15v.2" />
-                    <circle cx="10" cy="10" r="7.5" />
-                  </svg>
+                <span>
+                  <b>94%</b> AI ishonch darajasi
                 </span>
-                <div>
-                  <small>AI signali</small>
-                  <strong>Risk 18% kamaydi</strong>
-                </div>
-              </div>
-              <div
-                className="floating-note floating-note--saving"
-                aria-hidden="true"
-              >
-                <small>Yillik iqtisodiy samara</small>
-                <strong>+410 mln</strong>
-                <span>so'm</span>
+                <i></i>
+                <span>
+                  <b>24/7</b> uzluksiz monitoring
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="container value-strip" data-reveal>
+          <div className="container value-strip">
             <span className="value-strip-label">Bir platformada</span>
             <div className="value-item">
               <svg viewBox="0 0 22 22">

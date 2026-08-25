@@ -63,16 +63,16 @@ Asosiy qiymat zanjiri:
 
 ### Phase 2 — App foundation
 
-- [ ] Tanlangan frontend stackni sozlash.
-- [ ] Design systemni komponentlarga ajratish.
-- [ ] App shell: sidebar, topbar, breadcrumbs, command/search.
-- [ ] Role-based navigation va holatlar.
-- [ ] Demo dataset va frontend data layer.
+- [x] Tanlangan frontend stackni sozlash.
+- [x] Design systemni komponentlarga ajratish.
+- [x] App shell: sidebar, topbar, breadcrumbs, command/search.
+- [x] Rahbar roli uchun navigation foundation va holatlar.
+- [x] Demo dataset va frontend data layer.
 
 ### Phase 3 — MVP ekranlari
 
-- [ ] Login va onboarding.
-- [ ] Executive Dashboard.
+- [x] Sodda email/parol login ekrani.
+- [x] Executive Dashboard — premium UI redesign v1.
 - [ ] Tashkilot va bo'limlar.
 - [ ] Biznes jarayonlari ro'yxati va process detail.
 - [ ] Jarayon bosqichlari uchun flow/BPMN ko'rinishi.
@@ -82,6 +82,20 @@ Asosiy qiymat zanjiri:
 - [ ] ROI, NPV va iqtisodiy samaradorlik.
 - [ ] Econometric Analytics.
 - [ ] Hisobotlar va eksport holatlari.
+
+### Hozirgi fokus — faqat Dashboard
+
+- [x] Lokal iVision shell va typography tizimini audit qilish.
+- [x] KidoAI chart composition va dashboard density patternlarini audit qilish.
+- [x] Bulky qora sidebarni sokin, integratsiyalashgan product shell bilan almashtirish.
+- [x] Bir xil 5 ta KPI card o‘rniga asymmetric executive composition qurish.
+- [x] BPEI trend, process bullet chart, risk matrix, economic bridge va department lollipop chartlarini yaratish.
+- [x] Client-side live mock stream, pause/refresh, 6/12 oy switch va CSV exportni ulash.
+- [x] Topbar searchni olib tashlash va operational typography minimumini oshirish.
+- [x] 1920px, 1440px va 390px ekranlarda browser QA.
+- [ ] Dashboard vizual yo‘nalishini client bilan tasdiqlash.
+
+Qolgan product sectionlari Dashboard tasdiqlanmaguncha ataylab pauzada turadi.
 
 ### Phase 4 — UX hardening
 
