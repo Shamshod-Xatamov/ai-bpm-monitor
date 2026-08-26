@@ -365,7 +365,6 @@ export default function KpiCenter() {
       <header className={styles.pageHeader}>
         <div>
           <span className={styles.kicker}>Samaradorlik o‘lchovi</span>
-          <h1>KPI va BPEI</h1>
           <p>
             Indeks tarkibi, indikatorlar bajarilishi va bo‘limlar kesimidagi
             taqqoslash.

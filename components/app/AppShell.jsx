@@ -8,17 +8,27 @@ import {
   navigationGroups,
   smartAlerts,
 } from "@/lib/dashboard-data";
+import { moduleOverviews } from "@/lib/module-overviews";
 import Icon from "@/components/ui/Icon";
 import styles from "./AppShell.module.css";
 
 const pageNames = {
   ...Object.fromEntries(
+    Object.entries(moduleOverviews).map(([section, module]) => [
+      `/${section}`,
+      module.title,
+    ]),
+  ),
+  ...Object.fromEntries(
     navigationGroups.flatMap((group) =>
       group.items.map((item) => [item.href, item.label]),
     ),
   ),
-  "/settings": "Sozlamalar",
 };
+
+function isCurrentPath(pathname, href) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 function Brand() {
   return (
@@ -143,11 +153,16 @@ export default function AppShell({ children }) {
 
         <nav className={styles.navigation} aria-label="Asosiy bo‘limlar">
           {navigationGroups.map((group) => (
-            <div className={styles.navGroup} key={group.label}>
-              <span className={styles.navGroupLabel}>{group.label}</span>
+            <div
+              className={styles.navGroup}
+              key={group.label ?? group.items[0].href}
+            >
+              {group.label ? (
+                <span className={styles.navGroupLabel}>{group.label}</span>
+              ) : null}
               <div className={styles.navItems}>
                 {group.items.map((item) => {
-                  const active = pathname === item.href;
+                  const active = isCurrentPath(pathname, item.href);
 
                   return (
                     <Link
@@ -171,9 +186,12 @@ export default function AppShell({ children }) {
 
         <div className={styles.sidebarFooter}>
           <Link
-            className={styles.settingsLink}
+            className={`${styles.settingsLink} ${isCurrentPath(pathname, "/settings") ? styles.navItemActive : ""}`}
             href="/settings"
             title={collapsed ? "Sozlamalar" : undefined}
+            aria-current={
+              isCurrentPath(pathname, "/settings") ? "page" : undefined
+            }
           >
             <Icon name="settings" size={18} />
             <span>Sozlamalar</span>
@@ -194,8 +212,7 @@ export default function AppShell({ children }) {
               <Icon name="menu" size={20} />
             </button>
             <div className={styles.pageContext}>
-              <span>Ish maydoni</span>
-              <strong>{currentPage}</strong>
+              <h1>{currentPage}</h1>
             </div>
           </div>
 

@@ -160,7 +160,6 @@ function StreamHeader({
           <i className={!isLive ? styles.pausedDot : undefined} />
           {isLive ? "Jonli oqim" : "Oqim pauzada"}
         </span>
-        <h1>Operatsion panorama</h1>
         <p>
           Natija, risk va qarorlar — tashkilotning ayni paytdagi yagona
           boshqaruv ko‘rinishi.

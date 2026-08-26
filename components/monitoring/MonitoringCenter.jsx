@@ -451,7 +451,6 @@ export default function MonitoringCenter() {
             <i className={!isLive ? styles.pausedDot : undefined} />
             {isLive ? "Jonli kuzatuv" : "Kuzatuv pauzada"}
           </span>
-          <h1>Monitoring markazi</h1>
           <p>
             Jarayon hodisalari, kechikishlar va smart alertlar — real vaqt
             oqimida.

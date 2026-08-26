@@ -8,7 +8,7 @@
 
 .pageHeader {
   display: flex;
-  min-height: 66px;
+  min-height: 44px;
   align-items: flex-end;
   justify-content: space-between;
   gap: 28px;
@@ -38,17 +38,8 @@
   box-shadow: 0 0 0 4px rgba(177, 135, 57, 0.1);
 }
 
-.pageHeader h1 {
-  margin: 6px 0 3px;
-  font-family: var(--font-display);
-  font-size: clamp(28px, 2.1vw, 34px);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 1.08;
-}
-
 .pageHeader p {
-  margin: 0;
+  margin: 5px 0 0;
   color: #777169;
   font-size: var(--text-lg);
   line-height: 1.5;
@@ -2106,10 +2097,6 @@
 }
 
 @media (max-width: 620px) {
-  .pageHeader h1 {
-    font-size: 28px;
-  }
-
   .pageActions {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 44px;

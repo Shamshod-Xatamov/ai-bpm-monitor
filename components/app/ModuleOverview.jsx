@@ -10,7 +10,6 @@ export default function ModuleOverview({ module }) {
         </span>
         <div>
           <span>AI-BPM moduli</span>
-          <h1>{module.title}</h1>
           <p>{module.description}</p>
         </div>
         <button type="button">Yangi yozuv</button>

@@ -291,7 +291,6 @@ export default function AiAnalytics() {
       <header className={styles.pageHeader}>
         <div>
           <span className={styles.kicker}>Intelligence markazi</span>
-          <h1>AI tahlil</h1>
           <p>
             Anomaliyalar, ularning sabablari va model xulosalari — har bir
             topilma omillarga ajratilgan holda.

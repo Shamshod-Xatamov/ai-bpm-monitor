@@ -12,7 +12,7 @@
 /* ---------------------------------------------------------------- header */
 
 .pageHeader {
-  min-height: 66px;
+  min-height: 44px;
 }
 
 .kicker {
@@ -23,18 +23,9 @@
   text-transform: uppercase;
 }
 
-.pageHeader h1 {
-  margin: 6px 0 3px;
-  font-family: var(--font-display);
-  font-size: clamp(26px, 2.1vw, 34px);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 1.08;
-}
-
 .pageHeader p {
   max-width: 62ch;
-  margin: 0;
+  margin: 5px 0 0;
   color: #777169;
   font-size: var(--text-lg);
 }

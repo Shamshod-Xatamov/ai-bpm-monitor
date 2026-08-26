@@ -490,7 +490,6 @@ export default function ProcessRegistry() {
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <span className={styles.kicker}>Jarayonlar reyestri</span>
-        <h1>Biznes jarayonlari</h1>
         <p>
           Har bir jarayonning egasi, bosqichlari va SLA bo‘yicha holati — bitta
           ro‘yxatda.
