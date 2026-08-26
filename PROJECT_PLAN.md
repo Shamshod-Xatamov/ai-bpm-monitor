@@ -76,7 +76,7 @@ Asosiy qiymat zanjiri:
 - [ ] Tashkilot va bo'limlar.
 - [x] Biznes jarayonlari ro'yxati va process detail.
 - [ ] Jarayon bosqichlari uchun flow/BPMN ko'rinishi.
-- [ ] KPI va BPEI monitoring.
+- [x] KPI va BPEI monitoring.
 - [ ] AI anomaliya, prognoz, risk score va tavsiyalar.
 - [ ] Before/After va reja/fakt taqqoslash.
 - [ ] ROI, NPV va iqtisodiy samaradorlik.
