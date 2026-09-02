@@ -1,13 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import {
-  currentUser,
-  navigationGroups,
-  smartAlerts,
-} from "@/lib/dashboard-data";
+import { navigationGroups, smartAlerts } from "@/lib/dashboard-data";
 import { moduleOverviews } from "@/lib/module-overviews";
 import Icon from "@/components/ui/Icon";
 import styles from "./AppShell.module.css";
@@ -54,8 +50,9 @@ function Brand() {
   );
 }
 
-export default function AppShell({ children }) {
+export default function AppShell({ children, currentUser }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
@@ -64,6 +61,12 @@ export default function AppShell({ children }) {
     () => pageNames[pathname] ?? "AI-BPM Monitor",
     [pathname],
   );
+
+  const logout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.replace("/login");
+    router.refresh();
+  };
 
   useEffect(() => {
     if (!openMenu) return undefined;
@@ -102,6 +105,7 @@ export default function AppShell({ children }) {
 
   return (
     <div
+      data-app-shell
       className={`${styles.shell} ${collapsed ? styles.shellCollapsed : ""}`}
     >
       <a className={styles.skipLink} href="#dashboard-content">
@@ -185,6 +189,19 @@ export default function AppShell({ children }) {
         </nav>
 
         <div className={styles.sidebarFooter}>
+          {currentUser.role === "ADMIN" ? (
+            <Link
+              className={`${styles.settingsLink} ${isCurrentPath(pathname, "/users") ? styles.navItemActive : ""}`}
+              href="/users"
+              title={collapsed ? "Foydalanuvchilar" : undefined}
+              aria-current={
+                isCurrentPath(pathname, "/users") ? "page" : undefined
+              }
+            >
+              <Icon name="users" size={18} />
+              <span>Foydalanuvchilar</span>
+            </Link>
+          ) : null}
           <Link
             className={`${styles.settingsLink} ${isCurrentPath(pathname, "/settings") ? styles.navItemActive : ""}`}
             href="/settings"
@@ -321,13 +338,14 @@ export default function AppShell({ children }) {
                   >
                     <Icon name="users" size={16} /> Jamoa va rollar
                   </Link>
-                  <Link
+                  <button
                     className={styles.menuDanger}
-                    href="/login"
                     role="menuitem"
+                    type="button"
+                    onClick={logout}
                   >
                     <Icon name="logout" size={16} /> Chiqish
-                  </Link>
+                  </button>
                 </div>
               ) : null}
             </div>

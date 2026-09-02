@@ -1,0 +1,368 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #282622;
+}
+
+.hero,
+.createForm,
+.stats article,
+.tableCard,
+.denied {
+  border: 1px solid rgba(39, 38, 35, 0.08);
+  background: rgba(252, 251, 248, 0.9);
+  box-shadow: 0 12px 32px rgba(44, 39, 31, 0.04);
+}
+
+.hero {
+  display: grid;
+  padding: 24px 28px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  border-radius: 20px;
+}
+
+.heroIcon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border-radius: 17px;
+  color: #c94e20;
+  background: #f6d8c8;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #c94e20;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.formHead h2,
+.tableHead h2,
+.denied h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+}
+
+.hero h1 {
+  font-size: clamp(24px, 2.2vw, 34px);
+}
+
+.hero p {
+  margin: 5px 0 0;
+  color: #77716a;
+}
+
+.primaryButton,
+.secondaryButton,
+.statusButton {
+  display: inline-flex;
+  min-height: 40px;
+  padding: 0 14px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.primaryButton {
+  color: #fff;
+  border: 1px solid #24231f;
+  background: #24231f;
+}
+
+.secondaryButton {
+  color: #4f4b45;
+  border: 1px solid rgba(39, 38, 35, 0.1);
+  background: #fff;
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.statusButton:disabled,
+.roleSelect:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.createForm,
+.tableCard {
+  padding: 20px;
+  border-radius: 18px;
+}
+
+.formHead,
+.tableHead {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.formHead small,
+.tableHead small {
+  color: #918a82;
+}
+
+.formGrid {
+  display: grid;
+  margin-bottom: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.formGrid label,
+.resetForm label {
+  color: #676159;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.formGrid input,
+.formGrid select,
+.resetForm input,
+.roleSelect {
+  width: 100%;
+  height: 41px;
+  margin-top: 6px;
+  padding: 0 11px;
+  border: 1px solid rgba(39, 38, 35, 0.12);
+  border-radius: 10px;
+  color: #302e2a;
+  background: #fff;
+  outline: none;
+}
+
+.formGrid input:focus,
+.formGrid select:focus,
+.resetForm input:focus,
+.roleSelect:focus {
+  border-color: #d86639;
+  box-shadow: 0 0 0 3px rgba(216, 102, 57, 0.1);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stats article {
+  padding: 18px 20px;
+  border-radius: 16px;
+}
+
+.stats span,
+.lastLogin span {
+  display: block;
+  color: #8d867e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.stats strong {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 28px;
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+}
+
+.userRow {
+  display: grid;
+  padding: 13px 4px;
+  grid-template-columns:
+    auto minmax(180px, 1.4fr) minmax(150px, 1fr)
+    130px 100px 74px;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(39, 38, 35, 0.07);
+}
+
+.avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 12px;
+  color: #9e3c1c;
+  background: #f6d8c8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.identity {
+  min-width: 0;
+}
+
+.identity strong,
+.identity small,
+.lastLogin strong {
+  display: block;
+}
+
+.identity strong {
+  font-size: 13px;
+}
+
+.identity em {
+  margin-left: 5px;
+  padding: 2px 5px;
+  border-radius: 10px;
+  color: #42644c;
+  background: #e1ece2;
+  font-size: 9px;
+  font-style: normal;
+}
+
+.identity small,
+.lastLogin strong {
+  margin-top: 3px;
+  overflow: hidden;
+  color: #888179;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roleSelect {
+  height: 38px;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.statusButton {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 0;
+}
+
+.active {
+  color: #42644c;
+  background: #e1ece2;
+}
+
+.inactive {
+  color: #923a30;
+  background: #f6dfda;
+}
+
+.resetForm {
+  display: grid;
+  padding: 14px;
+  grid-column: 2 / -1;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  align-items: end;
+  gap: 10px;
+  border-radius: 12px;
+  background: #f4f0e9;
+}
+
+.error,
+.success {
+  padding: 11px 14px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.error {
+  color: #923a30;
+  background: #f6dfda;
+}
+
+.success {
+  color: #42644c;
+  background: #e1ece2;
+}
+
+.loading {
+  padding: 24px 0;
+  color: #8d867e;
+  text-align: center;
+}
+
+.denied {
+  display: grid;
+  min-height: 360px;
+  padding: 30px;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.denied p {
+  margin: 0;
+  color: #7d766e;
+}
+
+@media (max-width: 1000px) {
+  .formGrid,
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .userRow {
+    grid-template-columns: auto minmax(170px, 1fr) 120px 96px 70px;
+  }
+
+  .lastLogin {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding: 20px;
+    grid-template-columns: auto 1fr;
+  }
+
+  .hero .primaryButton {
+    grid-column: 1 / -1;
+  }
+
+  .formGrid,
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .userRow {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .roleSelect {
+    grid-column: 2 / -1;
+  }
+
+  .statusButton,
+  .userRow > .secondaryButton {
+    grid-column: span 1;
+  }
+
+  .resetForm {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+  }
+}

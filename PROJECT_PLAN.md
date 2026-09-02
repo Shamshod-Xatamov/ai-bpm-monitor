@@ -109,8 +109,8 @@ Qolgan product sectionlari Dashboard tasdiqlanmaguncha ataylab pauzada turadi.
 ### Phase 5 — Backend integratsiyaga tayyorlash
 
 - [ ] API contractlarni UI ehtiyojlari asosida belgilash.
-- [ ] Authentication va role permission mapping.
-- [ ] Real data, polling/realtime va cache strategiyasi.
+- [x] Authentication va role permission mapping.
+- [x] Spreadsheet import uchun real data va durable polling/job queue strategiyasi.
 - [ ] Audit log va export oqimlari.
 - [ ] AI natijalari uchun confidence, explanation va human-decision patternlari.
 

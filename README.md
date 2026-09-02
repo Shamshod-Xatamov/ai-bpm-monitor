@@ -7,6 +7,10 @@ AI yordamida biznes jarayonlarini monitoring, prognoz, iqtisodiy baholash va bos
 - pnpm
 - Next.js App Router
 - React
+- Prisma ORM + Neon PostgreSQL
+- Argon2id va DB-backed session auth
+- PostgreSQL-backed background job queue
+- Vitest
 - Global CSS design system
 - `next/font` orqali self-host qilingan Manrope va DM Sans
 
@@ -14,6 +18,8 @@ AI yordamida biznes jarayonlarini monitoring, prognoz, iqtisodiy baholash va bos
 
 ```bash
 pnpm install
+pnpm db:apply-import
+pnpm db:generate
 pnpm dev
 ```
 
@@ -26,6 +32,8 @@ Asosiy app dashboard: [http://localhost:3000/dashboard](http://localhost:3000/da
 ```bash
 pnpm lint
 pnpm format:check
+pnpm test:coverage
+pnpm db:validate
 pnpm build
 ```
 
@@ -39,3 +47,10 @@ pnpm build
 - `components/app/AppShell.jsx` — responsive sidebar, topbar va product navigation.
 - `components/dashboard/ExecutiveDashboard.jsx` — live mock stream, BPEI trend, AI Decision Desk, process bullet chart, risk matrix va iqtisodiy bridge bilan decision-first dashboard.
 - `lib/dashboard-data.js` — frontend demo dataset va navigation modeli.
+- `lib/server/auth/` — password, session va role tekshiruvlari.
+- `lib/server/jobs/import-jobs.js` — retry va stale-lock recovery bilan durable import queue.
+- `tests/` — parser, mapping, deterministic analysis va auth unit testlari.
+
+Product sahifalari login talab qiladi. Import yozuvlari sessiondagi
+`organizationId` bo‘yicha ajratiladi; `VIEWER` importlarni ko‘radi, ammo upload,
+mapping va analysis amallarini faqat `ADMIN` yoki `ANALYST` bajaradi.

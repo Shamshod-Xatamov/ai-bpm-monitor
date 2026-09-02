@@ -1243,8 +1243,10 @@ pnpm prisma migrate status
 
 MVP holati (2026-09-02): Milestone 0–6 ning asosiy upload, profiling,
 Gemini mapping, user confirmation, deterministic analysis, AI narrative va UI
-oqimi implementatsiya qilindi. Header override, sheet include/exclude UI,
-background queue va keng fixture matrix keyingi hardening iteratsiyasiga qoldi.
+oqimi implementatsiya qilindi. DB-backed background queue, session auth,
+organization isolation, persistent data-quality issues va unit/coverage testlari
+ham qo‘shildi. Header override, sheet include/exclude UI va keng E2E fixture
+matrix keyingi hardening iteratsiyasiga qoldi.
 
 Neon bazada loyihadan oldingi Prisma migration history mavjud, lekin uning
 local migration fayllari repoda yo‘q. Shu sabab data yo‘qotadigan reset

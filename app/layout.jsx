@@ -27,7 +27,11 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="uz" className={`${manrope.variable} ${dmSans.variable}`}>
+    <html
+      lang="uz"
+      className={`${manrope.variable} ${dmSans.variable}`}
+      data-scroll-behavior="smooth"
+    >
       <body>{children}</body>
     </html>
   );

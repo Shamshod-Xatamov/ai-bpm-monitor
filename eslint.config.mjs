@@ -14,6 +14,7 @@ export default defineConfig([
     "out/**",
     "build/**",
     "lib/generated/**",
+    "coverage/**",
     "next-env.d.ts",
   ]),
 ]);

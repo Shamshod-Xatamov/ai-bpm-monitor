@@ -389,6 +389,40 @@
   background: linear-gradient(90deg, #dc5f2b, #ef8b62);
 }
 
+.qualitySummary {
+  margin-top: 14px;
+  padding: 11px 12px;
+  border: 1px solid rgba(39, 38, 35, 0.07);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.qualitySummary > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--text-xs);
+}
+
+.qualitySummary > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.qualitySummary span {
+  padding: 4px 7px;
+  border-radius: 20px;
+  color: #79591f;
+  background: #fbf2dc;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.qualitySummary span[data-severity="HIGH"] {
+  color: #923a30;
+  background: #f6dfda;
+}
+
 .panelText {
   max-width: 80ch;
   margin: -5px 0 16px;

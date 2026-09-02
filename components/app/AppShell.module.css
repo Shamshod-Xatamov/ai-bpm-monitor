@@ -5,19 +5,21 @@
  * va shell ostida bo'sh joy paydo bo'lishi mumkin emas. Bu hidratsiyagacha
  * ham amal qiladi, chunki JS talab qilmaydi.
  *
- * `100vh` — `dvh` qo'llab-quvvatlanmagan brauzerlar uchun fallback.
+ * `inset: 0` shellni viewportning yuqori va pastki chetiga bevosita bog'laydi.
+ * Bu uzun Risk sahifasida Chrome `dvh` qiymatini qayta hisoblaganda paydo
+ * bo'ladigan pastki bo'shliqni ham chetlab o'tadi.
  */
 .shell {
   --sidebar-width: 238px;
   position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
+  inset: 0;
   display: grid;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 0;
   padding: 10px;
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-content: stretch;
+  align-items: stretch;
   gap: 10px;
   overflow: hidden;
   color: #20201e;
@@ -230,6 +232,7 @@
   flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   padding: 7px 10px 14px;
   scrollbar-color: rgba(37, 36, 33, 0.13) transparent;
   scrollbar-width: thin;
@@ -318,7 +321,10 @@
 }
 
 .sidebarFooter {
+  display: flex;
   padding: 9px 10px 10px;
+  flex-direction: column;
+  gap: 3px;
   border-top: 1px solid rgba(37, 36, 33, 0.07);
 }
 
@@ -549,7 +555,8 @@
   font-size: var(--text-xs);
 }
 
-.profilePopover a {
+.profilePopover a,
+.profilePopover button {
   display: flex;
   padding: 9px 8px;
   align-items: center;
@@ -564,7 +571,8 @@
   margin-top: 6px;
 }
 
-.profilePopover a:hover {
+.profilePopover a:hover,
+.profilePopover button:hover {
   background: rgba(39, 38, 35, 0.05);
 }
 
@@ -682,6 +690,8 @@
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-behavior: auto;
   padding: 14px 26px 40px;
   scrollbar-color: rgba(37, 36, 33, 0.18) transparent;
   scrollbar-width: thin;
@@ -785,7 +795,7 @@
   }
 
   .workspace {
-    height: 100dvh;
+    height: 100%;
     border: 0;
     border-radius: 0;
   }

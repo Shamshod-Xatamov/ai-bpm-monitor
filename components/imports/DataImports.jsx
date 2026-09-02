@@ -201,6 +201,7 @@ function ImportHistory({ items, selectedId, loading, onSelect }) {
 }
 
 function WorkbookOverview({ detail }) {
+  const issues = detail.sheets.flatMap((sheet) => sheet.qualityIssues ?? []);
   return (
     <div className={styles.overview}>
       <div className={styles.detailTitle}>
@@ -236,6 +237,19 @@ function WorkbookOverview({ detail }) {
       <div className={styles.progress}>
         <i style={{ width: `${detail.progress}%` }} />
       </div>
+      {issues.length ? (
+        <div className={styles.qualitySummary}>
+          <strong>Data quality: {issues.length} ta muammo</strong>
+          <div>
+            {issues.slice(0, 6).map((issue) => (
+              <span key={issue.id} data-severity={issue.severity}>
+                {issue.type.replaceAll("_", " ")} · {issue.count}
+                {issue.columnName ? ` · ${issue.columnName}` : ""}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -524,6 +538,33 @@ export default function DataImports() {
     setSelectedId((current) => current ?? result.items[0]?.id ?? null);
   }, []);
 
+  const pollImport = async (importId, terminalStatuses) => {
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      const current = await api(`/api/imports/${importId}`);
+      setDetail(current);
+      if (current.job?.status === "FAILED") {
+        throw new Error(
+          current.job.errorMessage ?? "Background job bajarilmadi.",
+        );
+      }
+      const jobIsActive = ["PENDING", "RUNNING"].includes(current.job?.status);
+      if (terminalStatuses.includes(current.status) && !jobIsActive) {
+        if (current.status === "FAILED") {
+          throw new Error(
+            current.errorMessage ??
+              current.job?.errorMessage ??
+              "Job bajarilmadi.",
+          );
+        }
+        return current;
+      }
+      await new Promise((resolve) => window.setTimeout(resolve, 1200));
+    }
+    throw new Error(
+      "Jarayon kutilgan vaqtda yakunlanmadi. Keyinroq qayta tekshiring.",
+    );
+  };
+
   useEffect(() => {
     api("/api/imports?pageSize=30")
       .then((result) => {
@@ -546,8 +587,17 @@ export default function DataImports() {
     setBusy(true);
     setError("");
     try {
-      const result = await api(path, options);
+      let result = await api(path, options);
       setDetail(result);
+      if (
+        result.job?.status === "PENDING" ||
+        result.job?.status === "RUNNING"
+      ) {
+        const terminalStatuses = path.endsWith("/infer")
+          ? ["NEEDS_REVIEW", "READY_TO_ANALYZE", "FAILED"]
+          : ["COMPLETED", "PARTIAL", "FAILED"];
+        result = await pollImport(result.id, terminalStatuses);
+      }
       await loadImports();
       return result;
     } catch (reason) {
@@ -575,10 +625,15 @@ export default function DataImports() {
       setSelectedId(imported.id);
       setDetail(imported);
       await loadImports();
-      const inferred = await api(`/api/imports/${imported.id}/infer`, {
+      const queued = await api(`/api/imports/${imported.id}/infer`, {
         method: "POST",
       });
-      setDetail(inferred);
+      setDetail(queued);
+      await pollImport(imported.id, [
+        "NEEDS_REVIEW",
+        "READY_TO_ANALYZE",
+        "FAILED",
+      ]);
       await loadImports();
     } catch (reason) {
       setError(reason.message);

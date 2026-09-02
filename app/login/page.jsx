@@ -1,12 +1,15 @@
-import LoginForm from "@/components/auth/LoginForm";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import LoginForm from "@/components/auth/LoginForm";
+import { getCurrentUser } from "@/lib/server/auth/session";
 
 export const metadata = {
   title: "Kirish — AI-BPM Monitor",
   description: "AI-BPM Monitor boshqaruv markaziga kirish.",
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  if (await getCurrentUser()) redirect("/dashboard");
   return (
     <main className="login-page">
       <header className="login-header">
@@ -43,7 +46,7 @@ export default function LoginPage() {
           <span className="login-kicker">Xavfsiz kirish</span>
           <h1 id="login-title">Hisobingizga kiring</h1>
           <p>
-            AI-BPM boshqaruv markaziga davom etish uchun Gmail manzilingiz va
+            AI-BPM boshqaruv markaziga davom etish uchun email manzilingiz va
             parolingizni kiriting.
           </p>
 

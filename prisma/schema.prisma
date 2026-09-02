@@ -188,6 +188,7 @@ model organizations {
   org_settings     org_settings?
   users            users[]
   workbook_imports workbook_imports[]
+  background_jobs  background_jobs[]
 }
 
 model workbook_imports {
@@ -215,10 +216,34 @@ model workbook_imports {
   datasets          datasets[]
   schema_mappings   schema_mappings[]
   analysis_runs     analysis_runs[]
+  background_jobs   background_jobs[]
 
   @@index([org_id, created_at])
   @@index([status, created_at])
   @@index([sha256])
+}
+
+model background_jobs {
+  id                 String                @id @db.Uuid
+  org_id             String                @db.Uuid
+  workbook_import_id String                @db.Uuid
+  type               background_job_type
+  status             background_job_status @default(PENDING)
+  attempts           Int                   @default(0)
+  max_attempts       Int                   @default(3)
+  run_after          DateTime              @default(now())
+  locked_at          DateTime?
+  completed_at       DateTime?
+  error_code         String?
+  error_message      String?
+  created_at         DateTime              @default(now())
+  updated_at         DateTime
+  organizations      organizations         @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  workbook_imports   workbook_imports      @relation(fields: [workbook_import_id], references: [id], onDelete: Cascade)
+
+  @@index([status, run_after])
+  @@index([org_id, created_at])
+  @@index([workbook_import_id, type, status])
 }
 
 model schema_mappings {
@@ -436,5 +461,17 @@ enum analysis_run_status {
   RUNNING
   COMPLETED
   PARTIAL
+  FAILED
+}
+
+enum background_job_type {
+  INFER_WORKBOOK
+  ANALYZE_WORKBOOK
+}
+
+enum background_job_status {
+  PENDING
+  RUNNING
+  COMPLETED
   FAILED
 }

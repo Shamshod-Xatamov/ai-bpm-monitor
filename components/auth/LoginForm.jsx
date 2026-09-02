@@ -6,45 +6,55 @@ import { useRouter } from "next/navigation";
 export default function LoginForm() {
   const router = useRouter();
   const [status, setStatus] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const form = event.currentTarget;
-    const emailInput = form.elements.email;
-    const email = emailInput.value.trim().toLowerCase();
-
-    if (!email.endsWith("@gmail.com")) {
-      emailInput.setCustomValidity("Faqat @gmail.com manzilidan foydalaning.");
-      emailInput.reportValidity();
-      return;
+    setBusy(true);
+    setStatus("");
+    const formData = new FormData(event.currentTarget);
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.get("email"),
+          password: formData.get("password"),
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error?.message ?? "Kirish amalga oshmadi.");
+      }
+      setStatus("Kirish muvaffaqiyatli. Dashboard ochilmoqda…");
+      router.replace("/dashboard");
+      router.refresh();
+    } catch (error) {
+      setStatus(
+        error instanceof Error ? error.message : "Kirish amalga oshmadi.",
+      );
+      setBusy(false);
     }
-
-    emailInput.setCustomValidity("");
-    setStatus("Kirish muvaffaqiyatli. Dashboard ochilmoqda…");
-    router.push("/dashboard");
   };
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <div className="login-field">
-        <label htmlFor="email">Gmail manzili</label>
+        <label htmlFor="email">Email manzili</label>
         <input
           id="email"
           name="email"
           type="email"
           inputMode="email"
           autoComplete="email"
-          placeholder="name@gmail.com"
-          pattern="[A-Za-z0-9._%+\-]+@gmail\.com"
-          title="Faqat @gmail.com manzilini kiriting"
+          placeholder="analitik@tashkilot.uz"
           onChange={(event) => event.currentTarget.setCustomValidity("")}
           onInvalid={(event) => {
             const input = event.currentTarget;
             input.setCustomValidity(
               input.validity.valueMissing
-                ? "Gmail manzilingizni kiriting."
-                : "Faqat @gmail.com manzilidan foydalaning.",
+                ? "Email manzilingizni kiriting."
+                : "To‘g‘ri email manzilini kiriting.",
             );
           }}
           required
@@ -67,8 +77,12 @@ export default function LoginForm() {
         />
       </div>
 
-      <button className="button button--dark login-submit" type="submit">
-        Kirish
+      <button
+        className="button button--dark login-submit"
+        type="submit"
+        disabled={busy}
+      >
+        {busy ? "Tekshirilmoqda…" : "Kirish"}
         <svg viewBox="0 0 18 18" aria-hidden="true">
           <path d="M3.75 9h10.5M10 4.75 14.25 9 10 13.25" />
         </svg>

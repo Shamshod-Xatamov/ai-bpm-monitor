@@ -20,6 +20,20 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
+DO $$ BEGIN
+  CREATE TYPE "background_job_type" AS ENUM (
+    'INFER_WORKBOOK', 'ANALYZE_WORKBOOK'
+  );
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE "background_job_status" AS ENUM (
+    'PENDING', 'RUNNING', 'COMPLETED', 'FAILED'
+  );
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
 ALTER TYPE "dataset_format" ADD VALUE IF NOT EXISTS 'XLS';
 ALTER TYPE "dataset_format" ADD VALUE IF NOT EXISTS 'XLSB';
 ALTER TYPE "dataset_format" ADD VALUE IF NOT EXISTS 'XLSM';
@@ -106,6 +120,24 @@ CREATE TABLE IF NOT EXISTS "ai_narratives" (
   CONSTRAINT "ai_narratives_pkey" PRIMARY KEY ("id")
 );
 
+CREATE TABLE IF NOT EXISTS "background_jobs" (
+  "id" UUID NOT NULL,
+  "org_id" UUID NOT NULL,
+  "workbook_import_id" UUID NOT NULL,
+  "type" "background_job_type" NOT NULL,
+  "status" "background_job_status" NOT NULL DEFAULT 'PENDING',
+  "attempts" INTEGER NOT NULL DEFAULT 0,
+  "max_attempts" INTEGER NOT NULL DEFAULT 3,
+  "run_after" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "locked_at" TIMESTAMP(3),
+  "completed_at" TIMESTAMP(3),
+  "error_code" TEXT,
+  "error_message" TEXT,
+  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP(3) NOT NULL,
+  CONSTRAINT "background_jobs_pkey" PRIMARY KEY ("id")
+);
+
 CREATE INDEX IF NOT EXISTS "workbook_imports_org_id_created_at_idx"
   ON "workbook_imports"("org_id", "created_at");
 CREATE INDEX IF NOT EXISTS "workbook_imports_status_created_at_idx"
@@ -124,6 +156,12 @@ CREATE INDEX IF NOT EXISTS "analysis_runs_mapping_id_status_idx"
   ON "analysis_runs"("mapping_id", "status");
 CREATE UNIQUE INDEX IF NOT EXISTS "ai_narratives_analysis_run_id_key"
   ON "ai_narratives"("analysis_run_id");
+CREATE INDEX IF NOT EXISTS "background_jobs_status_run_after_idx"
+  ON "background_jobs"("status", "run_after");
+CREATE INDEX IF NOT EXISTS "background_jobs_org_id_created_at_idx"
+  ON "background_jobs"("org_id", "created_at");
+CREATE INDEX IF NOT EXISTS "background_jobs_workbook_import_id_type_status_idx"
+  ON "background_jobs"("workbook_import_id", "type", "status");
 
 DO $$ BEGIN
   ALTER TABLE "workbook_imports"
@@ -169,6 +207,22 @@ DO $$ BEGIN
   ALTER TABLE "ai_narratives"
     ADD CONSTRAINT "ai_narratives_analysis_run_id_fkey"
     FOREIGN KEY ("analysis_run_id") REFERENCES "analysis_runs"("id")
+    ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "background_jobs"
+    ADD CONSTRAINT "background_jobs_org_id_fkey"
+    FOREIGN KEY ("org_id") REFERENCES "organizations"("id")
+    ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "background_jobs"
+    ADD CONSTRAINT "background_jobs_workbook_import_id_fkey"
+    FOREIGN KEY ("workbook_import_id") REFERENCES "workbook_imports"("id")
     ON DELETE CASCADE ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
