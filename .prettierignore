@@ -1,5 +1,9 @@
 .next/
-node_modules/
+.agents/
+.claude/
+.windsurf/
+lib/generated/
 pnpm-lock.yaml
-AGENTS.md
-CLAUDE.md
+prisma/schema.prisma
+.env.example
+skills-lock.json

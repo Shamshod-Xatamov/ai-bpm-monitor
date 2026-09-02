@@ -120,6 +120,12 @@ const icons = {
       <path d="M4 19h16" />
     </>
   ),
+  upload: (
+    <>
+      <path d="M12 16V4M7 9l5-5 5 5" />
+      <path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
+    </>
+  ),
   refresh: (
     <>
       <path d="M20 7v5h-5" />

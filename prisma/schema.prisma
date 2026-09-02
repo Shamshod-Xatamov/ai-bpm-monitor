@@ -1,0 +1,440 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ai_cache {
+  id         String    @id @db.Uuid
+  org_id     String?   @db.Uuid
+  task       String
+  cache_key  String    @unique
+  model      String
+  response   Json
+  tokens_in  Int?
+  tokens_out Int?
+  latency_ms Int?
+  created_at DateTime  @default(now())
+  expires_at DateTime?
+
+  @@index([org_id])
+  @@index([task])
+}
+
+model anomalies {
+  id             String           @id @db.Uuid
+  org_id         String           @db.Uuid
+  dataset_id     String?          @db.Uuid
+  metric_key     String
+  detected_at    DateTime
+  severity       anomaly_severity
+  method         String
+  observed       Float
+  expected       Float
+  deviation_pct  Float
+  z_score        Float?
+  status         anomaly_status   @default(OPEN)
+  trend          Json
+  context        Json?
+  ai_explanation Json?
+  fingerprint    String           @unique
+  created_at     DateTime         @default(now())
+  updated_at     DateTime
+  organizations  organizations    @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  decisions      decisions[]
+
+  @@index([org_id, detected_at])
+  @@index([status])
+}
+
+model cleaning_runs {
+  id                String          @id @db.Uuid
+  dataset_id        String          @db.Uuid
+  status            cleaning_status @default(RUNNING)
+  quality_before    Int
+  quality_after     Int?
+  valid_rows_before Int
+  valid_rows_after  Int?
+  stage_log         Json?
+  error_message     String?
+  started_at        DateTime        @default(now())
+  finished_at       DateTime?
+  datasets          datasets        @relation(fields: [dataset_id], references: [id], onDelete: Cascade)
+
+  @@index([dataset_id])
+}
+
+model dataset_columns {
+  id                 String          @id @db.Uuid
+  dataset_id         String          @db.Uuid
+  position           Int
+  source_name        String
+  canonical_key      String?
+  data_type          column_type     @default(UNKNOWN)
+  null_count         Int             @default(0)
+  distinct_count     Int             @default(0)
+  invalid_count      Int             @default(0)
+  min_value          Float?
+  max_value          Float?
+  mean_value         Float?
+  std_dev            Float?
+  q1                 Float?
+  q3                 Float?
+  sample_values      Json
+  mapping_confidence Int?
+  mapped_by          mapping_source?
+  mapping_reason     String?
+  unit_scale         Float?
+  datasets           datasets        @relation(fields: [dataset_id], references: [id], onDelete: Cascade)
+
+  @@unique([dataset_id, position])
+  @@index([dataset_id])
+}
+
+model dataset_rows {
+  id           String   @id @db.Uuid
+  dataset_id   String   @db.Uuid
+  row_index    Int
+  raw          Json
+  clean        Json?
+  issues       Json?
+  is_duplicate Boolean  @default(false)
+  datasets     datasets @relation(fields: [dataset_id], references: [id], onDelete: Cascade)
+
+  @@unique([dataset_id, row_index])
+  @@index([dataset_id])
+}
+
+model datasets {
+  id                    String            @id @db.Uuid
+  org_id                String            @db.Uuid
+  name                  String
+  original_filename     String
+  format                dataset_format
+  size_bytes            Int
+  row_count             Int
+  column_count          Int
+  status                dataset_status    @default(UPLOADED)
+  quality_score         Int?
+  cleaned_quality_score Int?
+  uploaded_by_id        String?           @db.Uuid
+  created_at            DateTime          @default(now())
+  updated_at            DateTime
+  valid_row_count       Int?
+  workbook_import_id    String?           @db.Uuid
+  sheet_name            String?
+  sheet_index           Int?
+  header_row            Int?
+  cleaning_runs         cleaning_runs[]
+  dataset_columns       dataset_columns[]
+  dataset_rows          dataset_rows[]
+  organizations         organizations     @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  users                 users?            @relation(fields: [uploaded_by_id], references: [id])
+  quality_issues        quality_issues[]
+  workbook_imports      workbook_imports? @relation(fields: [workbook_import_id], references: [id], onDelete: Cascade)
+
+  @@index([org_id, created_at])
+  @@index([workbook_import_id, sheet_index])
+}
+
+model decisions {
+  id             String            @id @db.Uuid
+  org_id         String            @db.Uuid
+  anomaly_id     String?           @db.Uuid
+  code           String
+  title          String
+  summary        String
+  priority       decision_priority
+  status         decision_status   @default(NEW)
+  confidence     Int
+  payload        Json
+  feedback       String?
+  reviewed_at    DateTime?
+  reviewed_by_id String?           @db.Uuid
+  created_at     DateTime          @default(now())
+  updated_at     DateTime
+  anomalies      anomalies?        @relation(fields: [anomaly_id], references: [id])
+  organizations  organizations     @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  users          users?            @relation(fields: [reviewed_by_id], references: [id])
+
+  @@unique([org_id, code])
+  @@index([org_id, created_at])
+}
+
+model org_settings {
+  org_id             String        @id @db.Uuid
+  thresholds         Json
+  notifications      Json
+  ees_config         Json
+  ai_investment_cost Decimal?      @db.Decimal(14, 2)
+  updated_at         DateTime
+  organizations      organizations @relation(fields: [org_id], references: [id], onDelete: Cascade)
+}
+
+model organizations {
+  id               String             @id @db.Uuid
+  name             String
+  sector           String             @default("Ishlab chiqarish")
+  timezone         String             @default("Asia/Tashkent (UTC+5)")
+  currency         String             @default("UZS — O'zbekiston so'mi")
+  created_at       DateTime           @default(now())
+  updated_at       DateTime
+  anomalies        anomalies[]
+  datasets         datasets[]
+  decisions        decisions[]
+  org_settings     org_settings?
+  users            users[]
+  workbook_imports workbook_imports[]
+}
+
+model workbook_imports {
+  id                String            @id @db.Uuid
+  org_id            String            @db.Uuid
+  original_filename String
+  format            String
+  mime_type         String?
+  size_bytes        Int
+  sha256            String
+  status            workbook_status   @default(PARSING)
+  progress          Int               @default(0)
+  current_stage     String?
+  sheet_count       Int               @default(0)
+  total_rows        Int               @default(0)
+  total_columns     Int               @default(0)
+  parser_version    String
+  warnings          Json
+  error_code        String?
+  error_message     String?
+  created_at        DateTime          @default(now())
+  updated_at        DateTime
+  completed_at      DateTime?
+  organizations     organizations     @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  datasets          datasets[]
+  schema_mappings   schema_mappings[]
+  analysis_runs     analysis_runs[]
+
+  @@index([org_id, created_at])
+  @@index([status, created_at])
+  @@index([sha256])
+}
+
+model schema_mappings {
+  id                 String                @id @db.Uuid
+  workbook_import_id String                @db.Uuid
+  version            Int
+  status             mapping_review_status @default(DRAFT)
+  dataset_type       String
+  dataset_summary    String?
+  language_hints     Json
+  mapping            Json
+  relationships      Json
+  analysis_plan      Json
+  confidence         Float
+  blocking_warnings  Json
+  model_name         String?
+  prompt_version     String
+  schema_version     String
+  created_at         DateTime              @default(now())
+  confirmed_at       DateTime?
+  workbook_imports   workbook_imports      @relation(fields: [workbook_import_id], references: [id], onDelete: Cascade)
+  analysis_runs      analysis_runs[]
+
+  @@unique([workbook_import_id, version])
+  @@index([workbook_import_id, status])
+}
+
+model analysis_runs {
+  id                 String              @id @db.Uuid
+  workbook_import_id String              @db.Uuid
+  mapping_id         String              @db.Uuid
+  status             analysis_run_status @default(PENDING)
+  engine_version     String
+  metrics            Json
+  findings           Json
+  chart_specs        Json
+  data_quality       Json
+  started_at         DateTime            @default(now())
+  completed_at       DateTime?
+  error_code         String?
+  error_message      String?
+  workbook_imports   workbook_imports    @relation(fields: [workbook_import_id], references: [id], onDelete: Cascade)
+  schema_mappings    schema_mappings     @relation(fields: [mapping_id], references: [id], onDelete: Restrict)
+  ai_narratives      ai_narratives?
+
+  @@index([workbook_import_id, started_at])
+  @@index([mapping_id, status])
+}
+
+model ai_narratives {
+  id              String        @id @db.Uuid
+  analysis_run_id String        @unique @db.Uuid
+  model_name      String
+  prompt_version  String
+  summary         String
+  recommendations Json
+  limitations     Json
+  evidence_links  Json
+  usage_metadata  Json?
+  created_at      DateTime      @default(now())
+  analysis_runs   analysis_runs @relation(fields: [analysis_run_id], references: [id], onDelete: Cascade)
+}
+
+model quality_issues {
+  id            String         @id @db.Uuid
+  dataset_id    String         @db.Uuid
+  column_name   String?
+  issue_type    issue_type
+  count         Int
+  affected_pct  Float
+  severity      issue_severity
+  suggested_fix String
+  ai_rationale  String?
+  applied       Boolean        @default(false)
+  created_at    DateTime       @default(now())
+  datasets      datasets       @relation(fields: [dataset_id], references: [id], onDelete: Cascade)
+
+  @@index([dataset_id])
+}
+
+model sessions {
+  id         String   @id @db.Uuid
+  user_id    String   @db.Uuid
+  expires_at DateTime
+  user_agent String?
+  ip_address String?
+  created_at DateTime @default(now())
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([expires_at])
+  @@index([user_id])
+}
+
+model users {
+  id            String        @id @db.Uuid
+  org_id        String        @db.Uuid
+  email         String        @unique
+  password_hash String
+  full_name     String
+  role          user_role     @default(ANALYST)
+  language      String        @default("O'zbekcha")
+  is_active     Boolean       @default(true)
+  last_login_at DateTime?
+  created_at    DateTime      @default(now())
+  updated_at    DateTime
+  datasets      datasets[]
+  decisions     decisions[]
+  sessions      sessions[]
+  organizations organizations @relation(fields: [org_id], references: [id], onDelete: Cascade)
+
+  @@index([org_id])
+}
+
+enum anomaly_severity {
+  CRITICAL
+  WARNING
+  INFO
+}
+
+enum anomaly_status {
+  OPEN
+  REVIEWED
+  RESOLVED
+}
+
+enum cleaning_status {
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum column_type {
+  DATE
+  NUMBER
+  TEXT
+  BOOLEAN
+  UNKNOWN
+}
+
+enum dataset_format {
+  CSV
+  XLSX
+  XLS
+  XLSB
+  XLSM
+  ODS
+}
+
+enum dataset_status {
+  UPLOADED
+  PROFILED
+  MAPPED
+  CLEANED
+  FAILED
+}
+
+enum decision_priority {
+  CRITICAL
+  HIGH
+  MEDIUM
+}
+
+enum decision_status {
+  NEW
+  REVIEWED
+  PLANNED
+}
+
+enum issue_severity {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum issue_type {
+  MISSING
+  DUPLICATE
+  TYPE_ERROR
+  OUTLIER
+}
+
+enum mapping_source {
+  AI
+  USER
+  HEURISTIC
+}
+
+enum user_role {
+  ADMIN
+  ANALYST
+  VIEWER
+}
+
+enum workbook_status {
+  PARSING
+  PROFILED
+  INFERRING
+  NEEDS_REVIEW
+  READY_TO_ANALYZE
+  ANALYZING
+  COMPLETED
+  PARTIAL
+  FAILED
+}
+
+enum mapping_review_status {
+  DRAFT
+  AUTO_CONFIRMED
+  USER_CONFIRMED
+  REJECTED
+}
+
+enum analysis_run_status {
+  PENDING
+  RUNNING
+  COMPLETED
+  PARTIAL
+  FAILED
+}

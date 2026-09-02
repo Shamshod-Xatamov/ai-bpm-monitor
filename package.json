@@ -10,16 +10,28 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:generate": "prisma generate --config prisma7.config.ts",
+    "db:validate": "prisma validate --config prisma7.config.ts",
+    "db:apply-import": "prisma db execute --config prisma7.config.ts --file prisma/manual-migrations/20260831_excel_ai_import.sql"
   },
   "dependencies": {
+    "@google/genai": "^2.19.0",
+    "@neondatabase/serverless": "^1.1.0",
+    "@prisma/adapter-neon": "7.10.0",
+    "@prisma/client": "7.10.0",
     "next": "16.3.2",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
+    "dotenv": "^17.4.2",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.2",
-    "prettier": "3.9.6"
+    "prettier": "3.9.6",
+    "prisma": "7.10.0",
+    "tsx": "^4.23.13"
   }
 }
